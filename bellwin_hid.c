@@ -272,12 +272,15 @@ int main(int argc, char **argv)
 	if (operation == OP_GET_STATUS) {
 		ret = get_device_status(handle);
 	} else if (operation == OP_SET_POWER) {
-		for (i = 0; i < argc; i++) {
+		for (i = 1; i < argc; i++) {
 			char cmd[7];
 			int offset;
 			int value;
 
-			ret = sscanf(argv[i], "%u=%d", &offset, &value);
+			//ret = sscanf(argv[i], "%u=%d", &offset, &value);
+			sscanf(argv[0], "%d", &offset);
+			sscanf(argv[1], "%d", &value);
+			ret = argc;			
 			if (ret != 2) {
 				fprintf(stderr, "invalid offset<->value mapping: %s", argv[i]);
 				ret = 1;
@@ -291,7 +294,7 @@ int main(int argc, char **argv)
 				goto out;
 			}
 			if (offset > POWER_SWITCH_COUNT || offset < 1) {
-				fprintf(stderr,"invalid offset: %s", argv[i]);
+				fprintf(stderr,"invalid offset: %s", argv[0]);
 				ret = 1;
 				goto out;
 			}
